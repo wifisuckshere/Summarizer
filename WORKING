@@ -1,0 +1,54 @@
+from flask import Flask, render_template, request
+from firecrawl import Firecrawl
+from bs4 import BeautifulSoup
+from readability import Document
+from openai import OpenAI
+
+app = Flask(__name__)
+
+# -------------------- API Keys --------------------
+HF_API_KEY = "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"
+FIRECRAWL_KEY = "fc-fc23f9fc3b3a47f2a453353a0a5ee51c"
+
+# -------------------- Your Functions --------------------
+def toChat(content):
+    client = OpenAI(
+        base_url="https://router.huggingface.co/v1",
+        api_key=HF_API_KEY
+    )
+    completion = client.chat.completions.create(
+        model="deepseek-ai/DeepSeek-R1:fireworks-ai",
+        messages=[{
+            "role": "user",
+            "content": "Summarize concisely, do not repeat yourselves:\n" + content
+        }]
+    )
+    return completion.choices[0].message
+
+def extract_text(raw_html):
+    doc = Document(raw_html)
+    summary_html = doc.summary()
+    bs = BeautifulSoup(summary_html, "html.parser")
+    return bs.get_text(separator="\n")
+
+def get_HTML(url):
+    firecrawl = Firecrawl(api_key=FIRECRAWL_KEY)
+    result = firecrawl.scrape(url, formats=["html"])
+    return result.html
+
+# -------------------- Flask Route --------------------
+@app.route("/", methods=["GET", "POST"])
+def index():
+    summary = ""
+    if request.method == "POST":
+        url = request.form.get("url")
+        if url:
+            raw_html = get_HTML(url)
+            text = extract_text(raw_html)
+            output = toChat(text)
+            summary = output.content.replace("\\n", "\n")
+    return render_template("index.html", summary=summary)
+
+# -------------------- Main --------------------
+if __name__ == "__main__":
+    app.run(debug=True)

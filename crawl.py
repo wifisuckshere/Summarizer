@@ -8,17 +8,16 @@ import requests
 
 app = Flask(__name__)
 
-def toChat(content):
+def toChat(prompt):
     response = requests.post(
         "http://localhost:11434/api/generate",
         json={
             "model": "llama3",
-            "prompt": "Summarize semi-concisely, do not repeat yourself, output in clean markdown format, \n" + content,
+            "prompt": prompt,  # use prompt directly
             "stream": False
         }
     )
-
-    # Ollama may stream output if not handled, so take only the final response
+    
     data = response.json()
     return data.get("response", "")
 
@@ -27,15 +26,31 @@ def get_HTML(url):
     result = firecrawl.scrape(url, formats=["summary"])
     return result.summary
 
+
+def clean_output(output):
+    soup = BeautifulSoup(output, "html.parser")
+    text_only = soup.get_text()
+    return markdown.markdown(text_only, extensions=["extra", "sane_lists"])
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     summary = ""
     if request.method == "POST":
         url = request.form.get("url")
+        mode = request.form.get("mode")
+
         if url:
             raw_text = get_HTML(url)
-            output = toChat(raw_text)
-            summary = markdown.markdown(output)
+
+            if mode == "concise":
+                prompt = "Summarize very concisely, focus only on key points, in clean markdown format.\n" + raw_text
+            elif mode == "detailed":
+                prompt = "Summarize in detail, covering all important points, in clean markdown format.\n" + raw_text
+            else:
+                prompt = "Summarize clearly and moderately detailed, in clean markdown format.\n" + raw_text
+
+            output = toChat(prompt)
+            summary = markdown.markdown(output, extensions=["extra", "sane_lists"])
     return render_template("index.html", summary=summary)
 
 if __name__ == "__main__":

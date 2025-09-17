@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>Summarizer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <title>Summarizer</title>
 </head>
 <body>
-    <h1>Dang Nguyen's Summarizer</h1>
-    <form method = "POST">
-        <input type = "text" name ="url">
-        <button type="submit">Summarize</button>
-    </form>
-    {% if summary %}
-        <h3>Summary:</h3>
-        <p>{{ summary|safe }}</p>
-    {% endif %}  
+  <h1>Dang Nguyen's Summarizer</h1>
+
+  <form method="POST">
+  <input type="text" name="url" placeholder="Article Link">
+
+  <div class="button-group">
+    <button type="submit" name="mode" value="concise">Concise Summary</button>
+    <button type="submit" name="mode" value="standard">Standard Summary</button>
+    <button type="submit" name="mode" value="detailed">Detailed Summary</button>
+  </div>
+</form>
+
+  {% if summary %}
+    <div class="summary">
+      {{ summary|safe }}
+    </div>
+  {% endif %}
 </body>
 </html>

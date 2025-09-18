@@ -5,24 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   <title>Summarizer</title>
+  <style>
+    #spinner {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>Dang Nguyen's Summarizer</h1>
+  <div class="wrapper">
+    <h1>Dang Nguyen's Summarizer</h1>
 
-  <form method="POST">
-  <input type="text" name="url" placeholder="Article Link">
+    <form id="summary-form" method="POST">
+      <input type="text" name="url" placeholder="🔗 Paste article link here">
 
-  <div class="button-group">
-    <button type="submit" name="mode" value="concise">Concise Summary</button>
-    <button type="submit" name="mode" value="standard">Standard Summary</button>
-    <button type="submit" name="mode" value="detailed">Detailed Summary</button>
+      <div class="button-group">
+        <button type="submit" name="mode" value="concise">Concise Summary</button>
+        <button type="submit" name="mode" value="standard">Standard Summary</button>
+        <button type="submit" name="mode" value="detailed">Detailed Summary</button>
+      </div>
+    </form>
+
+    {% if summary %}
+      <div class="summary">
+        {{ summary|safe }}
+      </div>
+    {% endif %}
   </div>
-</form>
-
-  {% if summary %}
-    <div class="summary">
-      {{ summary|safe }}
-    </div>
-  {% endif %}
 </body>
 </html>

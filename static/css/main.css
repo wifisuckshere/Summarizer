@@ -1,16 +1,45 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafc;
   text-align: center;
+  padding: 20px;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafc;
+  text-align: center;
+  padding: 20px;
+}
+
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 h1 {
   margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #222;
 }
 
 form {
-  margin: 0 auto 40px auto;
+  margin: 0 auto 20px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,49 +51,65 @@ form {
 input[type="text"] {
   width: 100%;
   font-size: 16px;
-  padding: 10px;
-  height: 42px;
+  padding: 12px 15px;
+  height: 48px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 10px;
   box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99,102,241,0.2);
 }
 
 .button-group {
   display: flex;
   width: 100%;
-  gap: 0;
+  gap: 10px;
 }
 
 .button-group button {
   flex: 1;
-  font-family: sans-serif;
   font-size: 15px;
   font-weight: bold;
-  padding: 10px 0;
+  padding: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  background: #979797;
   color: white;
-  transition: background 0.2s ease;
-  height: 42px;
-}
-
-.button-group button:not(:last-child) {
-  border-right: 2px solid #ffffff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  min-height: 45px;
 }
 
 .button-group button:hover {
-  background: #b4b4b4;
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+button[value="concise"] {
+  background: #3b82f6;
+}
+
+button[value="standard"] {
+  background: #10b981;
+}
+
+button[value="detailed"] {
+  background: #f97316;
 }
 
 .summary {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 20px;
-  background: #f0f0f0;
-  border-radius: 8px;
+  background: #ffffff;
+  border-radius: 12px;
   text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .summary ul {

@@ -17,7 +17,7 @@ def toChat(prompt):
             "stream": False
         }
     )
-    
+
     data = response.json()
     return data.get("response", "")
 
@@ -50,7 +50,7 @@ def index():
                 prompt = "Summarize clearly and moderately detailed, in clean markdown format.\n" + raw_text
 
             output = toChat(prompt)
-            summary = markdown.markdown(output, extensions=["extra", "sane_lists"])
+            summary = clean_output(output)
     return render_template("index.html", summary=summary)
 
 if __name__ == "__main__":

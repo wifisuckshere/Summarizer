@@ -1,36 +1,12 @@
-from firecrawl import Firecrawl
-from bs4 import BeautifulSoup
-from readability import Document
 from flask import Flask, render_template, url_for, request
-import markdown
 import os
 import requests
 
+from clean import clean_output
+from getHTML import get_HTML
+from toCHAT import toChat
+
 app = Flask(__name__)
-
-def toChat(prompt):
-    response = requests.post(
-        "http://localhost:11434/api/generate",
-        json={
-            "model": "llama3",
-            "prompt": prompt,  # use prompt directly
-            "stream": False
-        }
-    )
-
-    data = response.json()
-    return data.get("response", "")
-
-def get_HTML(url):
-    firecrawl = Firecrawl(api_key="fc-fc23f9fc3b3a47f2a453353a0a5ee51c")
-    result = firecrawl.scrape(url, formats=["summary"])
-    return result.summary
-
-
-def clean_output(output):
-    soup = BeautifulSoup(output, "html.parser")
-    text_only = soup.get_text()
-    return markdown.markdown(text_only, extensions=["extra", "sane_lists"])
 
 @app.route("/", methods=["GET", "POST"])
 def index():

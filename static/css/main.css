@@ -91,15 +91,15 @@ input[type="text"]:focus {
 }
 
 button[value="concise"] {
-  background: #3b82f6;
+  background: #2bbee2;
 }
 
 button[value="standard"] {
-  background: #10b981;
+  background: #1078ce;
 }
 
 button[value="detailed"] {
-  background: #f97316;
+  background: #135eeb;
 }
 
 .summary {

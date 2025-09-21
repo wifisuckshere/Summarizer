@@ -9,17 +9,6 @@ body {
   padding: 20px;
 }
 
-body {
-  margin: 0;
-  font-family: sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #f9fafc;
-  text-align: center;
-  padding: 20px;
-}
-
 .wrapper {
   flex: 1;
   display: flex;

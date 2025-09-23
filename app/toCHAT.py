@@ -1,13 +1,18 @@
 import requests
 from flask import Response
 import json
+import os
 
 
 def toChat(prompt):
     def generate():
+
+        ollama_url = os.getenv("OLLAMA_URL")
+        ollama_model = os.getenv("OLLAMA_MODEL")
+
         r = requests.post(
-            "http://localhost:11434/api/generate",
-            json={"model": "llama3", "prompt": prompt, "stream": True},
+            ollama_url + "/api/generate",
+            json={"model": ollama_model, "prompt": prompt, "stream": True},
             stream=True,
         )
         for line in r.iter_lines():

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, Response
-from getHTML import get_HTML
-from toCHAT import toChat
+from app.getHTML import get_HTML
+from app.toCHAT import toChat
 
 app = Flask(__name__)
 

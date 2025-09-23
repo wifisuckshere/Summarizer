@@ -1,7 +1,7 @@
 from firecrawl import Firecrawl
-
+import os
 
 def get_HTML(url):
-    firecrawl = Firecrawl(api_key="fc-fc23f9fc3b3a47f2a453353a0a5ee51c")
+    firecrawl = Firecrawl(api_key=os.getenv("FIRECRAWL_API_KEY"))
     result = firecrawl.scrape(url, formats=["summary"])
     return result.summary
